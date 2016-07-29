@@ -1,0 +1,14 @@
+{
+  "name": "dagalti",
+  "version": "1.0.0",
+  "description": "A HTTP proxy server that displays the requests and responses as they flyby",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ashwanth Fernando",
+  "license": "MIT",
+  "dependencies": {
+	  "url-parse":"1.1.1"  
+  }
+}
