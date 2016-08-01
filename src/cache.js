@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-var cacheSingleton = (function singleton() {
+module.exports = (function singleton() {
     var instance;
 
     function init() {
