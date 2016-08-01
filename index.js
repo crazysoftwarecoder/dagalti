@@ -29,14 +29,16 @@ var httpServer = http.createServer(function(request, response) {
   var host = url.hostname;
   var port = url.port || 80;
   var pathName = url.pathname;
-
+  var method = request.method;
   var client = new Client();
+  var headers = request.headers;
 
   var httpRequest = {
     host: host,
     port: port,
     path: pathName,
-    method: request.method,
+    method: method,
+    headers: headers,
     callback: function(status, statusMessage, headers, body) {
       response.writeHead(status, headers);
       response.write(body);
@@ -55,10 +57,23 @@ var httpServer = http.createServer(function(request, response) {
       body = Buffer.concat(body).toString();
       httpRequest.body = body;
     }
-    client.callURL(httpRequest);
+
+    var value = cache.getInstance().getKey(method, host, port, pathName, headers, body);
+    if (value) {
+      httpRequest.callback(value.status, value.statusMessage, value.headers, value.body);
+    }
+    else {
+      client.callURL(httpRequest);
+    }
   });
 });
 
 httpServer.listen(PORT);
+
+// Persist cache when node.js is shut down.
+process.on('exit', function() {
+  console.log('Dagalti is shutting down! Persisting cache.');
+  cache.persistCache(cacheJSON);
+});
 
 console.log('Dagalti is running on port ' + PORT + '!');

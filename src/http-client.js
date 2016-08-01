@@ -19,7 +19,8 @@ Client.prototype.callURL = function(request) {
         host:   request.host,
         port:   port,
         path:   request.path,
-        method: request.method
+        method: request.method,
+        headers: request.headers
     }
 
     var callback = request.callback;
