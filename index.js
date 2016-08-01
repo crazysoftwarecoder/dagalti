@@ -4,9 +4,9 @@ var http = require('http');
 var URL = require('url-parse');
 
 var logger = require('./src/request-logger');
-var HttpClient = require('./src/http-client');
+var Client = require('./src/http-client');
 
-const PORT = 32876;
+const PORT = process.argv[2] || 32876;
 
 var httpServer = http.createServer(function(request, response) {
   request.on('error', function(err) {
@@ -23,18 +23,37 @@ var httpServer = http.createServer(function(request, response) {
 
   var url = new URL(request.url);
 
-  var host = url.host;
+  var host = url.hostname;
   var port = url.port || 80;
   var pathName = url.pathname;
 
-  var httpClient = new HttpClient(host, port);
+  var client = new Client();
 
-  httpClient.get({}, pathName, function(status, statusMessage, headers, body) {
+  var httpRequest = {
+    host: host,
+    port: port,
+    path: pathName,
+    method: request.method,
+    callback: function(status, statusMessage, headers, body) {
       response.writeHead(status, headers);
       response.write(body);
       response.end();
-  });
+    }
+  }
 
+  var body;
+  request.on('data', function(chunk) {
+    if (!body) {
+      body = [];
+    }
+    body.push(chunk);
+  }).on('end', function() {
+    if (body) {
+      body = Buffer.concat(body).toString();
+      httpRequest.body = body;
+    }
+    client.callURL(httpRequest);
+  });
 });
 
 httpServer.listen(PORT);
