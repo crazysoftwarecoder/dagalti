@@ -28,6 +28,42 @@ var cacheSingleton = (function singleton() {
 
                 fs.writeFileSync(file, jsonString);
                 fs.closeSync(file);
+            },
+            getKey: function(method, host, port, pathName, headers, body) {
+
+                function getHeadersForKey(headers) {
+                    var headerNames = [];
+
+                    for (header in headers) {
+                        headerNames.push(header + ':' + headers[header]);
+                    }
+
+                    headerNames.sort();
+
+                    var headerKeyString = '';
+
+                    for (header in headerNames) {
+                        headerKeyString += header;
+                        headerKeyString += ',';
+                    }
+
+                    return headerKeyString;
+                }
+
+                var key = '';
+                key += method;
+                key += ',';
+                key += host;
+                key += ',';
+                key += port;
+                key += ',';
+                key += pathName;
+                key += ',';
+                key += getHeadersForKey(headers);
+                if (body) {
+                    key += ',';
+                    key += body.replace(" ", "");
+                }
             }
         }
     }
