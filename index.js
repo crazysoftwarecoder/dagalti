@@ -5,8 +5,11 @@ var URL = require('url-parse');
 
 var logger = require('./src/request-logger');
 var Client = require('./src/http-client');
+var cache  = require('./src/cache');
 
 const PORT = process.argv[2] || 32876;
+
+var cacheJSON = cache.getInstance().getCache() || {};
 
 var httpServer = http.createServer(function(request, response) {
   request.on('error', function(err) {
