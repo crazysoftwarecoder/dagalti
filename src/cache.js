@@ -37,7 +37,7 @@ module.exports = (function singleton() {
                     var headerNames = [];
 
                     for (header in headers) {
-                        if (header === 'x-ebay-soa-request-guid') {
+                        if (header === '<dont-cache-this-header>') {
                             continue;
                         }
                         headerNames.push(header + ':' + headers[header]);
