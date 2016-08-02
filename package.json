@@ -9,6 +9,7 @@
   "author": "Ashwanth Fernando",
   "license": "MIT",
   "dependencies": {
-	  "url-parse":"1.1.1"  
+    "exit-hook": "1.1.1",
+    "url-parse": "1.1.1"
   }
 }

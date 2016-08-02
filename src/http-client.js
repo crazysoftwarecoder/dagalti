@@ -35,6 +35,11 @@ Client.prototype.callURL = function(request) {
         });
     });
 
+    requester.on('error', function(e) {
+        console.log('There was an error processing this request:' + e);
+        callback('500', 'There was an error processing this request:' + e, undefined, '');
+    });
+
     var requestBody = request.body;
 
     if (options.method === 'POST') {

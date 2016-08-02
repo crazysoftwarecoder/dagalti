@@ -7,6 +7,8 @@ var logger = require('./src/request-logger');
 var Client = require('./src/http-client');
 var cache  = require('./src/cache');
 
+var exitHook = require('exit-hook');
+
 const PORT = process.argv[2] || 32876;
 
 var cacheJSON = cache.getInstance().getCache() || {};
@@ -33,6 +35,9 @@ var httpServer = http.createServer(function(request, response) {
   var client = new Client();
   var headers = request.headers;
 
+  var cacheKey = cache.getInstance().getKey(method, host, port, pathName, headers, body);
+  var value = cacheJSON[cacheKey];
+
   var httpRequest = {
     host: host,
     port: port,
@@ -40,6 +45,17 @@ var httpServer = http.createServer(function(request, response) {
     method: method,
     headers: headers,
     callback: function(status, statusMessage, headers, body) {
+      if (!value) {
+        cacheJSON[cacheKey] = {
+          status: status,
+          statusMessage: statusMessage,
+          headers: headers,
+          body: body
+        }
+      }
+      else {
+        console.log('Serving cached response for ' + request.url);
+      }
       response.writeHead(status, headers);
       response.write(body);
       response.end();
@@ -58,7 +74,6 @@ var httpServer = http.createServer(function(request, response) {
       httpRequest.body = body;
     }
 
-    var value = cache.getInstance().getKey(method, host, port, pathName, headers, body);
     if (value) {
       httpRequest.callback(value.status, value.statusMessage, value.headers, value.body);
     }
@@ -71,9 +86,10 @@ var httpServer = http.createServer(function(request, response) {
 httpServer.listen(PORT);
 
 // Persist cache when node.js is shut down.
-process.on('exit', function() {
+exitHook(function() {
+  console.log();
   console.log('Dagalti is shutting down! Persisting cache.');
-  cache.persistCache(cacheJSON);
+  cache.getInstance().persistCache(cacheJSON);
 });
 
 console.log('Dagalti is running on port ' + PORT + '!');

@@ -5,11 +5,13 @@ module.exports = (function singleton() {
 
     function init() {
 
+        var cacheFilePath = './.cache/.proxyCache';
+
         return {
             getCache: function() {
                 var exists = fs.existsSync(cacheFilePath);
                 if (exists) {
-                    var json = JSON.parse(fs.accessSync(cacheFilePath, fs.constants.R_OK));
+                    var json = JSON.parse(fs.readFileSync(cacheFilePath, "utf8"));
                     return json;
                 }
                 else {
@@ -17,16 +19,16 @@ module.exports = (function singleton() {
                 }
             },
             persistCache: function(cacheJson) {
-                var exists = fs.existsSync('./.cache/.proxyCache');
+                var exists = fs.existsSync(cacheFilePath);
                 if (!exists) { 
-                    if (fs.existsSync('./.cache')) {
+                    if (!fs.existsSync('./.cache')) {
                         fs.mkdirSync('./.cache');
                     }
                 }
-                var file = fs.openSync('./.cache/.proxyCache', 'w');
+                var file = fs.openSync(cacheFilePath, 'w');
                 var jsonString = JSON.stringify(cacheJson);
 
-                fs.writeFileSync(file, jsonString);
+                fs.writeSync(file, jsonString);
                 fs.closeSync(file);
             },
             getKey: function(method, host, port, pathName, headers, body) {
@@ -35,6 +37,9 @@ module.exports = (function singleton() {
                     var headerNames = [];
 
                     for (header in headers) {
+                        if (header === 'x-ebay-soa-request-guid') {
+                            continue;
+                        }
                         headerNames.push(header + ':' + headers[header]);
                     }
 
@@ -43,7 +48,7 @@ module.exports = (function singleton() {
                     var headerKeyString = '';
 
                     for (header in headerNames) {
-                        headerKeyString += header;
+                        headerKeyString += headerNames[header];
                         headerKeyString += ',';
                     }
 
@@ -64,6 +69,8 @@ module.exports = (function singleton() {
                     key += ',';
                     key += body.replace(" ", "");
                 }
+
+                return key;
             }
         }
     }
