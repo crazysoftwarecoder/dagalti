@@ -1,4 +1,5 @@
 var fs = require('fs');
+var config = require('./config');
 
 module.exports = (function singleton() {
     var instance;
@@ -37,7 +38,7 @@ module.exports = (function singleton() {
                     var headerNames = [];
 
                     for (header in headers) {
-                        if (header === '<dont-cache-this-header>') {
+                        if (config.ignoreHeaders.indexOf(header) != -1) {
                             continue;
                         }
                         headerNames.push(header + ':' + headers[header]);
