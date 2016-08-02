@@ -31,7 +31,7 @@ Dagalti is running on port 32876!
 
 Once Dagalti is installed it is time to redirect your http and https requests in your working project to the Dagalti process. This is fairly straight-forward for many platforms. 
 
-For ex. in Java to redirect all http(s)requests through a proxy, please follow [this link]. To redirect to Dagalti, you would set the proxy host and port to 127.0.0.1 and 32876 respectively.
+For ex. in Java to redirect all http(s)requests through a proxy, please follow [this link]. To redirect to Dagalti running on your machine, you would set the proxy host and port to 127.0.0.1 and 32876 respectively.
 
 ### Development
 
