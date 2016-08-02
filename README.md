@@ -56,7 +56,6 @@ Please submit a PR to the master branch. It will be approved asap.
 
 ### Todos
 
- - Tests, Coverage and Grunt
  - Pretty Print Console trivia
 
 License
