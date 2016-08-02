@@ -9,7 +9,7 @@ var cache  = require('./src/cache');
 
 var exitHook = require('exit-hook');
 
-const PORT = process.argv[2] || 32876;
+const PORT = process.argv[2] || 32878;
 
 var cacheJSON = cache.getInstance().getCache() || {};
 
