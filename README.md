@@ -39,6 +39,15 @@ On the response, Dagalti will cache them before serving them back to your develo
 
 From the next time that you bring up your server, **Dagalti** will serve all the cached responses back, saving you tons of seconds of latency.
 
+### Invalidate the Dagalti cache
+Press Ctrl + C (on *nix)
+```
+^C 
+$ rm .cache/.proxyCache
+$ node index.js
+Dagalti is running on port 32878!
+```
+
 ### Development
 
 Want to contribute? Great!
