@@ -1,32 +1,43 @@
+'use strict';
+
 var fs = require('fs');
 var config = require('./config');
 
 module.exports = (function singleton() {
+    
     var instance;
 
     function init() {
 
-        var cacheFilePath = './.cache/.proxyCache';
-
         return {
-            getCache: function() {
-                var exists = fs.existsSync(cacheFilePath);
+            getCache: function(filePath) {
+                var exists = fs.existsSync(filePath);
+
+                var cacheJSON;
+
                 if (exists) {
-                    var json = JSON.parse(fs.readFileSync(cacheFilePath, "utf8"));
-                    return json;
+                    var fileStr = fs.readFileSync(filePath, "utf8");
+                    if (fileStr) {
+                        cacheJSON = JSON.parse(fileStr);
+                    }
+                    else {
+                        cacheJSON = null;
+                    }
                 }
                 else {
-                    return null;
+                    cacheJSON = null;
                 }
+
+                return cacheJSON;
             },
-            persistCache: function(cacheJson) {
-                var exists = fs.existsSync(cacheFilePath);
+            persistCache: function(cacheJson, filePath) {
+                var exists = fs.existsSync(filePath);
                 if (!exists) { 
                     if (!fs.existsSync('./.cache')) {
                         fs.mkdirSync('./.cache');
                     }
                 }
-                var file = fs.openSync(cacheFilePath, 'w');
+                var file = fs.openSync(filePath, 'w');
                 var jsonString = JSON.stringify(cacheJson);
 
                 fs.writeSync(file, jsonString);
@@ -85,6 +96,5 @@ module.exports = (function singleton() {
             return instance;
         }
     }
-
 })();
 

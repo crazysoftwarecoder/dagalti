@@ -11,7 +11,9 @@ var exitHook = require('exit-hook');
 
 const PORT = process.argv[2] || 32878;
 
-var cacheJSON = cache.getInstance().getCache() || {};
+var cacheFilePath = './.cache/.proxyCache';
+
+var cacheJSON = cache.getInstance().getCache(cacheFilePath) || {};
 
 var httpServer = http.createServer(function(request, response) {
   request.on('error', function(err) {
@@ -89,7 +91,7 @@ httpServer.listen(PORT);
 exitHook(function() {
   console.log();
   console.log('Dagalti is shutting down! Persisting cache.');
-  cache.getInstance().persistCache(cacheJSON);
+  cache.getInstance().persistCache(cacheJSON, cacheFilePath);
 });
 
 console.log('Dagalti is running on port ' + PORT + '!');
