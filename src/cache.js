@@ -48,7 +48,7 @@ module.exports = (function singleton() {
                 function getHeadersForKey(headers) {
                     var headerNames = [];
 
-                    for (header in headers) {
+                    for (var header in headers) {
                         if (config.ignoreHeaders.indexOf(header) != -1) {
                             continue;
                         }
@@ -59,7 +59,7 @@ module.exports = (function singleton() {
 
                     var headerKeyString = '';
 
-                    for (header in headerNames) {
+                    for (var header in headerNames) {
                         headerKeyString += headerNames[header];
                         headerKeyString += ',';
                     }
@@ -67,22 +67,27 @@ module.exports = (function singleton() {
                     return headerKeyString;
                 }
 
-                var key = '';
-                key += method;
-                key += ',';
-                key += host;
-                key += ',';
-                key += port;
-                key += ',';
-                key += pathName;
-                key += ',';
-                key += getHeadersForKey(headers);
-                if (body) {
+                if (method && host && port && pathName && headers) {
+                    var key = '';
+                    key += method;
                     key += ',';
-                    key += body.replace(" ", "");
-                }
+                    key += host;
+                    key += ',';
+                    key += port;
+                    key += ',';
+                    key += pathName;
+                    key += ',';
+                    key += getHeadersForKey(headers);
+                    if (body) {
+                        key += ',';
+                        key += body.replace(" ", "");
+                    }
 
-                return key;
+                    return key;
+                }
+                else {
+                    return undefined;
+                }
             }
         }
     }

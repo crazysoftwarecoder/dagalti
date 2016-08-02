@@ -33,4 +33,10 @@ describe('Cache', function() {
             assert.equal(0, cache.getInstance().getCache(path + file).age);
         });
     });
+
+    describe('getKey', function() {
+        it('should return undefined when input is invalid', function() {
+            assert.equal(undefined, cache.getInstance().getKey('','localhost',8080,'/'));
+        })
+    });
 });
