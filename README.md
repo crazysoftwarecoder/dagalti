@@ -33,6 +33,12 @@ Once Dagalti is installed it is time to redirect your http and https requests in
 
 For ex. in Java to redirect all http(s)requests through a proxy, please follow [this link]. To redirect to Dagalti running on your machine, you would set the proxy host and port to 127.0.0.1 and 32878 respectively.
 
+Now start your server up. All HTTP and HTTPS requests will go through **Dagalti**, which will proxy the message to the destination server. You will see **Dagalti's** console light up with all the requests that are flowing through the proxy server.
+
+On the response, Dagalti will cache them before serving them back to your development server.
+
+From the next time that you bring up your server, **Dagalti** will serve all the cached responses back, saving you tons of seconds of latency.
+
 ### Development
 
 Want to contribute? Great!
