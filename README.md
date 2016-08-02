@@ -65,6 +65,8 @@ License
 MIT
 
 
+Dagalti's etymology comes from modern day Tamizh language in India which means a person who knows nothing but establishes credibility by using his relationships with subject matter experts and relies on them for answers to complex questions.
+
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
 
