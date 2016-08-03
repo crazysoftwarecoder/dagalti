@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/crazysoftwarecoder/dagalti.svg?branch=master)](https://travis-ci.org/crazysoftwarecoder/dagalti) ![alt tag](https://raw.githubusercontent.com/crazysoftwarecoder/dagalti/master/images/Dagalti.png)
+[![Build Status](https://travis-ci.org/crazysoftwarecoder/dagalti.svg?branch=master)](https://travis-ci.org/crazysoftwarecoder/dagalti)
+[![Coverage Status](https://coveralls.io/repos/github/crazysoftwarecoder/dagalti/badge.svg?branch=master)](https://coveralls.io/github/crazysoftwarecoder/dagalti?branch=master)
+![alt tag](https://raw.githubusercontent.com/crazysoftwarecoder/dagalti/master/images/Dagalti.png)
 
 **Dagalti** is a dynamic proxy server that caches service responses. It is mainly used to reduce server startup time dramatically for developers who work on **codebases** that take too long to start locally due to the common problem of corporate headquarters <-> datacenter latency.
 
