@@ -79,8 +79,7 @@ module.exports = (function singleton() {
                     key += ',';
                     key += getHeadersForKey(headers);
                     if (body) {
-                        key += ',';
-                        key += body.replace(" ", "");
+                        key += body.replace(/ /g, '');
                     }
 
                     return key;

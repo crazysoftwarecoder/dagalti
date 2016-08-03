@@ -37,6 +37,31 @@ describe('Cache', function() {
     describe('getKey', function() {
         it('should return undefined when input is invalid', function() {
             assert.equal(undefined, cache.getInstance().getKey('','localhost',8080,'/'));
-        })
+        });
+
+        it ('should return a valid key for a GET request', function() {
+            assert.equal('GET,localhost,8080,/,header1:value1,', cache.getInstance().getKey('GET','localhost',8080,'/',{'header1':'value1'}));
+        });
+
+        it ('should return a valid key for a POST request', function() {
+            assert.equal('POST,localhost,8080,/,header1:value1,bodywithnowhitespace', cache.getInstance().getKey('POST','localhost',8080,'/',{'header1':'value1'},'body with no whitespace'));
+        });
+
+        it ('should return sorted headers in the key', function() {
+            assert.equal('POST,localhost,8080,/,a:value1,b:value2,', cache.getInstance().getKey('POST','localhost',8080,'/',{'b':'value2','a':'value1'}));
+        });
     });
+
+    describe('persistCache', function() {
+        it('should persist the json that was supplied', function() {
+            if (fs.existsSync(path)) {
+                execSync('rm -rf ' + path);
+            }
+            execSync('mkdir -p ' + path);
+            cache.getInstance().persistCache({'name':'Dagalti','hotness':'ultra Cool'}, path + file);
+            var jsonFromCache = cache.getInstance().getCache(path + file);
+            assert.equal('Dagalti', jsonFromCache.name);
+            assert.equal('ultra Cool', jsonFromCache.hotness);
+        });
+    })
 });
