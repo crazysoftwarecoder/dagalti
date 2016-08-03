@@ -39,6 +39,8 @@ On the response, Dagalti will cache them before serving them back to your develo
 
 From the next time that you bring up your server, **Dagalti** will serve all the cached responses back, saving you tons of seconds of latency.
 
+**Note**: If you have request headers that keep changing for every request even though the rest of the request remains intact, you might want to add that to config.js to ignore them for caching.
+
 ### Invalidate the Dagalti cache
 Press Ctrl + C (on *nix)
 ```
