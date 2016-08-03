@@ -14,7 +14,7 @@ Client.prototype.callURL = function(request) {
         client = https;
     }
 
-    var port = request.port || (request.protocol === 'http') ? 80 : 443;
+    var port = request.port || ( (request.protocol === 'http') ? 80 : 443 );
 
     var options = {
         host:   request.host,

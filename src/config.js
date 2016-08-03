@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-    "ignoreHeaders" : ['<header-to-ignore>']
+    "ignoreHeaders" : ['<headers-that-change-every-request>']
 }
