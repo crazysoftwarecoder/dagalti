@@ -4,6 +4,8 @@
 
 **Dagalti** is a dynamic proxy server that caches service responses. It is mainly used to reduce server startup time dramatically for developers who work on **codebases** that take too long to start locally due to the common problem of corporate headquarters <-> datacenter latency.
 
+In short, **Dagalti** is meant for developers to hack on their code in a Starbucks (for example) without connecting to the corporate VPN.
+
 ### Version
 0.0.1
 
